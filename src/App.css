@@ -1,38 +1,40 @@
-.App {
-  text-align: center;
+/* Custom component styles */
+.typing-animation {
+  overflow: hidden;
+  border-right: 3px solid #E91E63;
+  white-space: nowrap;
+  margin: 0 auto;
+  animation: typing 3.5s steps(40, end), blink-caret 0.75s step-end infinite;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+@keyframes blink-caret {
+  from, to { border-color: transparent; }
+  50% { border-color: #E91E63; }
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+.masonry-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  grid-gap: 1rem;
+  grid-auto-rows: 200px;
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+.masonry-item {
+  grid-row-end: span var(--row-span, 1);
 }
 
-.App-link {
-  color: #61dafb;
+.heart-floating {
+  animation: float 3s ease-in-out infinite;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-10px); }
+}
+
+.gradient-text {
+  background: linear-gradient(45deg, #E91E63, #F8BBD0);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
 }
