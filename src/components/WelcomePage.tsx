@@ -20,9 +20,9 @@ const WelcomePage: React.FC<WelcomePageProps> = ({ onContinue }) => {
       {/* Full background image */}
       <div className="absolute inset-0">
         <img
-          src="/api/placeholder/1920/1080"
+          src="/love-background-new.jpg"
           alt="Love background"
-          className="w-full h-full object-cover"
+          className="w-full h-full object-cover object-center"
         />
         <div className="absolute inset-0 bg-black/20"></div>
       </div>
@@ -89,12 +89,12 @@ const WelcomePage: React.FC<WelcomePageProps> = ({ onContinue }) => {
         
         {/* Main title */}
         <div className="mb-8 animate-fade-in">
-          <h1 className="text-6xl md:text-8xl font-bold mb-4 tracking-wide">
+          <h1 className="text-6xl md:text-8xl font-bold mb-4 tracking-wide" style={{ lineHeight: '2' }}>
             <span className="inline-block animate-scale-in font-sedgwick bg-clip-text text-transparent bg-gradient-to-r from-white via-pink-200 to-white drop-shadow-2xl">
               HELLO
             </span>
           </h1>
-          <h2 className="text-5xl md:text-7xl font-bold mb-2 font-sedgwick drop-shadow-xl bg-clip-text text-transparent bg-gradient-to-r from-pink-300 via-pink-200 to-pink-300">
+          <h2 className="text-5xl md:text-7xl font-bold mb-2 font-sedgwick drop-shadow-xl bg-clip-text text-transparent bg-gradient-to-r from-pink-300 via-pink-200 to-pink-300" style={{ lineHeight: '2' }}>
             MY LOVE!!!
           </h2>
         </div>

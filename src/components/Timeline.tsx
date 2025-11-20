@@ -1,5 +1,5 @@
 import React from 'react';
-import { Heart, Calendar, Star, Gift, Coffee, Cake } from 'lucide-react';
+import { Heart, Calendar, Star, Gift, Coffee, Cake, Music, Camera, Plane, BookOpen, Gamepad2, Sparkles } from 'lucide-react';
 
 interface TimelineItem {
   id: number;
@@ -15,7 +15,7 @@ const Timeline: React.FC = () => {
   const timelineItems: TimelineItem[] = [
     {
       id: 1,
-      date: "20/01/2024",
+      date: "Tháng 1/2024",
       title: "Lần đầu gặp nhau",
       description: "Ngày định mệnh khi hai trái tim tìm thấy nhau trong quán café nhỏ ấy. Một cái nhìn, một nụ cười, và mọi thứ bắt đầu từ đây.",
       icon: <Coffee className="w-6 h-6" />,
@@ -23,7 +23,7 @@ const Timeline: React.FC = () => {
     },
     {
       id: 2,
-      date: "14/02/2024",
+      date: "Tháng 2/2024",
       title: "Ngày chính thức yêu nhau",
       description: "Valentine đáng nhớ nhất! Anh đã chính thức hỏi: 'Em có muốn làm người yêu anh không?' và em đã gật đầu với gương mặt đỏ bừng.",
       icon: <Heart className="w-6 h-6" />,
@@ -32,27 +32,86 @@ const Timeline: React.FC = () => {
     },
     {
       id: 3,
-      date: "25/05/2024",
-      title: "Kỷ niệm 100 ngày yêu",
-      description: "100 ngày ngọt ngào đầu tiên! Anh đã tặng em 100 bông hoa giấy nhỏ, mỗi bông đều có một lời nhắn yêu thương.",
-      icon: <Star className="w-6 h-6" />,
+      date: "Tháng 3/2024",
+      title: "Hẹn hò đầu tiên",
+      description: "Chuyến xem phim đầu tiên cùng nhau. Em đã chọn một bộ phim lãng mạn và anh thì cứ ngắm em suốt buổi chiếu.",
+      icon: <Camera className="w-6 h-6" />,
       image: "/api/placeholder/300/200"
     },
     {
       id: 4,
-      date: "20/07/2024",
-      title: "Chuyến du lịch đầu tiên",
-      description: "Đà Lạt - thành phố ngàn hoa. Chúng ta đã cùng nhau ngắm hoàng hôn trên đồi chè và hứa sẽ đi thật nhiều nơi bên nhau.",
-      icon: <Gift className="w-6 h-6" />,
+      date: "Tháng 4/2024",
+      title: "Picnic mùa xuân",
+      description: "Buổi picnic đầu tiên ở công viên khi hoa anh đào nở rộ. Chúng ta đã chụp vô số ảnh và cùng nhau làm bánh sandwich.",
+      icon: <Sparkles className="w-6 h-6" />,
       image: "/api/placeholder/300/200"
     },
     {
       id: 5,
-      date: "15/10/2024",
-      title: "Kỷ niệm 8 tháng",
-      description: "Ngày anh nấu cho em bữa tối đầu tiên (và cũng là lần đầu anh nấu ăn 😅). Dù hơi mặn nhưng em vẫn ăn hết và nói 'ngon lắm'.",
-      icon: <Cake className="w-6 h-6" />,
+      date: "Tháng 5/2024",
+      title: "Kỷ niệm 100 ngày yêu",
+      description: "100 ngày ngọt ngào đầu tiên! Anh đã tặng em 100 bông hoa giấy nhỏ, mỗi bông đều có một lời nhắn yêu thương.",
+      icon: <Star className="w-6 h-6" />,
+      image: "/api/placeholder/300/200",
+      isSpecial: true
+    },
+    {
+      id: 6,
+      date: "Tháng 6/2024",
+      title: "Concert đầu tiên",
+      description: "Đi xem concert của ca sĩ em yêu thích. Dù anh không biết các bài hát nhưng thấy em vui là anh cũng hạnh phúc rồi.",
+      icon: <Music className="w-6 h-6" />,
       image: "/api/placeholder/300/200"
+    },
+    {
+      id: 7,
+      date: "Tháng 7/2024",
+      title: "Chuyến du lịch đầu tiên",
+      description: "Đà Lạt - thành phố ngàn hoa. Chúng ta đã cùng nhau ngắm hoàng hôn trên đồi chè và hứa sẽ đi thật nhiều nơi bên nhau.",
+      icon: <Plane className="w-6 h-6" />,
+      image: "/api/placeholder/300/200"
+    },
+    {
+      id: 8,
+      date: "Tháng 8/2024",
+      title: "Sinh nhật của em",
+      description: "Sinh nhật 20 tuổi của em. Anh đã chuẩn bị một bữa tiệc nhỏ với bánh kem tự làm (hơi lệch nhưng em vẫn khen ngon!).",
+      icon: <Cake className="w-6 h-6" />,
+      image: "/api/placeholder/300/200",
+      isSpecial: true
+    },
+    {
+      id: 9,
+      date: "Tháng 9/2024",
+      title: "Học nấu ăn cùng nhau",
+      description: "Bắt đầu học nấu những món ăn em thích. Từ việc đổ muối thành đường cho đến những bữa cơm ngon lành.",
+      icon: <BookOpen className="w-6 h-6" />,
+      image: "/api/placeholder/300/200"
+    },
+    {
+      id: 10,
+      date: "Tháng 10/2024",
+      title: "Gaming cùng nhau",
+      description: "Em bắt đầu chơi game cùng anh. Dù chưa giỏi nhưng thật vui khi có thể chia sẻ sở thích này với em.",
+      icon: <Gamepad2 className="w-6 h-6" />,
+      image: "/api/placeholder/300/200"
+    },
+    {
+      id: 11,
+      date: "Tháng 11/2024",
+      title: "Kỷ niệm 9 tháng",
+      description: "9 tháng bên nhau và tình yêu ngày càng sâu đậm hơn. Anh biết em chính là người anh muốn gắn bó cả đời.",
+      icon: <Gift className="w-6 h-6" />,
+      image: "/api/placeholder/300/200"
+    },
+    {
+      id: 12,
+      date: "Tháng 12/2024",
+      title: "Giáng sinh đầu tiên",
+      description: "Giáng sinh đầu tiên bên nhau. Cùng trang trí cây thông, tặng quà và hứa hẹn sẽ có thật nhiều mùa Giáng sinh bên nhau.",
+      icon: <Star className="w-6 h-6" />,
+      image: "/api/placeholder/300/200",
+      isSpecial: true
     }
   ];
 

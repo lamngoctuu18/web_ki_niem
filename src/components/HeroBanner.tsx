@@ -24,7 +24,7 @@ const HeroBanner: React.FC = () => {
         <div className="mb-8 animate-scale-in">
           <div className="w-64 h-64 mx-auto rounded-full overflow-hidden shadow-pink-md border-4 border-white hover:scale-105 transition-transform duration-300">
             <img
-              src="/api/placeholder/400/400"
+              src="/hero-image.jpg"
               alt="Mai và Đạt"
               className="w-full h-full object-cover"
             />

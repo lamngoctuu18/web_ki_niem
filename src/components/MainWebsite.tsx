@@ -1,11 +1,12 @@
-import React, { useState } from 'react';
-import { Heart, Home, Camera, Clock, MessageCircle, Mail, X } from 'lucide-react';
+import React, { useState, useEffect } from 'react';
+import { Heart, Home, Camera, Clock, MessageCircle, Mail, X, Menu } from 'lucide-react';
 
 // Import existing components
-import StorySection from './StorySection';
+import MusicPage from './MusicPage';
 import Timeline from './Timeline';
 import PhotoAlbum from './PhotoAlbum';
 import LoveMessages from './LoveMessages';
+import ChatBox from './ChatBox';
 
 interface MainWebsiteProps {
   onLogout: () => void;
@@ -14,21 +15,35 @@ interface MainWebsiteProps {
 const MainWebsite: React.FC<MainWebsiteProps> = ({ onLogout }) => {
   const [activeTab, setActiveTab] = useState('home');
   const [isLetterOpen, setIsLetterOpen] = useState(false);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   const tabs = [
     { id: 'home', label: 'Trang chủ', icon: Home },
-    { id: 'story', label: 'Câu chuyện', icon: Heart },
+    { id: 'music', label: 'Âm nhạc', icon: Heart },
     { id: 'timeline', label: 'Timeline', icon: Clock },
     { id: 'photos', label: 'Album ảnh', icon: Camera },
     { id: 'messages', label: 'Tin nhắn', icon: MessageCircle },
   ];
 
+  // Close mobile menu when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      const target = event.target as HTMLElement;
+      if (!target.closest('nav') && isMobileMenuOpen) {
+        setIsMobileMenuOpen(false);
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, [isMobileMenuOpen]);
+
   const renderActiveContent = () => {
     switch (activeTab) {
       case 'home':
         return <HomePage onOpenLetter={() => setIsLetterOpen(true)} />;
-      case 'story':
-        return <StorySection />;
+      case 'music':
+        return <MusicPage />;
       case 'timeline':
         return <Timeline />;
       case 'photos':
@@ -71,7 +86,8 @@ const MainWebsite: React.FC<MainWebsiteProps> = ({ onLogout }) => {
       {/* Navigation Tabs */}
       <nav className="bg-white/60 backdrop-blur-2xl border-b border-pink-100/30 sticky top-20 z-30">
         <div className="max-w-7xl mx-auto px-6 py-4">
-          <div className="flex justify-center">
+          {/* Desktop Navigation */}
+          <div className="hidden md:flex justify-center">
             <div className="flex space-x-2 bg-pink-50/80 p-2 rounded-2xl shadow-inner border border-pink-100/50">
               {tabs.map((tab) => {
                 const IconComponent = tab.icon;
@@ -97,6 +113,58 @@ const MainWebsite: React.FC<MainWebsiteProps> = ({ onLogout }) => {
               })}
             </div>
           </div>
+
+          {/* Mobile Navigation */}
+          <div className="md:hidden">
+            <div className="flex items-center justify-between">
+              <div className="flex items-center space-x-3">
+                <div className="w-8 h-8 bg-gradient-to-br from-pink-400 to-rose-500 rounded-xl flex items-center justify-center">
+                  <Heart className="w-4 h-4 text-white" fill="currentColor" />
+                </div>
+                <span className="font-semibold text-pink-600">
+                  {tabs.find(tab => tab.id === activeTab)?.label}
+                </span>
+              </div>
+              
+              <button
+                onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+                className="p-3 bg-pink-50 hover:bg-pink-100 rounded-xl transition-colors border border-pink-100"
+              >
+                <Menu className="w-6 h-6 text-pink-600" />
+              </button>
+            </div>
+
+            {/* Mobile Menu Dropdown */}
+            {isMobileMenuOpen && (
+              <div className="absolute top-full left-0 right-0 mt-2 mx-4 bg-white/95 backdrop-blur-xl rounded-2xl shadow-xl border border-pink-100/50 overflow-hidden z-50">
+                {tabs.map((tab) => {
+                  const IconComponent = tab.icon;
+                  return (
+                    <button
+                      key={tab.id}
+                      onClick={() => {
+                        setActiveTab(tab.id);
+                        setIsMobileMenuOpen(false);
+                      }}
+                      className={`w-full flex items-center space-x-4 px-6 py-4 transition-all duration-200 ${
+                        activeTab === tab.id
+                          ? 'bg-gradient-to-r from-pink-500 to-rose-500 text-white'
+                          : 'text-pink-600 hover:bg-pink-50'
+                      }`}
+                    >
+                      <IconComponent className={`w-5 h-5 ${
+                        activeTab === tab.id ? 'animate-bounce' : ''
+                      }`} />
+                      <span className="font-medium">{tab.label}</span>
+                      {activeTab === tab.id && (
+                        <Heart className="ml-auto w-4 h-4" fill="currentColor" />
+                      )}
+                    </button>
+                  );
+                })}
+              </div>
+            )}
+          </div>
         </div>
       </nav>
 
@@ -109,6 +177,9 @@ const MainWebsite: React.FC<MainWebsiteProps> = ({ onLogout }) => {
       {isLetterOpen && (
         <LoveLetter onClose={() => setIsLetterOpen(false)} />
       )}
+
+      {/* Chat Box */}
+      <ChatBox />
     </div>
   );
 };
@@ -147,7 +218,7 @@ const HomePage: React.FC<{ onOpenLetter: () => void }> = ({ onOpenLetter }) => {
             <div className="relative inline-block">
               <div className="w-80 h-80 mx-auto rounded-3xl overflow-hidden shadow-2xl shadow-pink-500/20 border-8 border-white hover:scale-105 transition-all duration-500 relative group">
                 <img
-                  src="/api/placeholder/400/400"
+                  src="/hero-image.jpg"
                   alt="Mai và Đạt"
                   className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
                 />
@@ -204,16 +275,6 @@ const HomePage: React.FC<{ onOpenLetter: () => void }> = ({ onOpenLetter }) => {
                   <Heart className="w-6 h-6 group-hover:animate-heart-pulse" fill="currentColor" />
                 </div>
               </button>
-
-              {/* Explore button */}
-              <button
-                onClick={() => {}}
-                className="group flex items-center space-x-4 px-10 py-5 bg-white/80 backdrop-blur-sm border-2 border-pink-300/50 text-pink-600 rounded-2xl hover:bg-pink-50 transform hover:scale-105 transition-all duration-300 shadow-lg hover:shadow-xl"
-              >
-                <Heart className="w-6 h-6 group-hover:animate-heart-pulse" />
-                <span className="font-bold text-lg">Khám phá thêm</span>
-                <div className="w-2 h-2 bg-pink-400 rounded-full group-hover:animate-ping"></div>
-              </button>
             </div>
           </div>
         </div>
@@ -234,16 +295,16 @@ const LoveLetter: React.FC<{ onClose: () => void }> = ({ onClose }) => {
   };
 
   return (
-    <div className="fixed inset-0 bg-black/40 backdrop-blur-md flex items-center justify-center p-6 z-50">
-      <div className="relative max-w-3xl w-full">
+    <div className="fixed inset-0 bg-black/40 backdrop-blur-md flex items-center justify-center p-4 md:p-6 z-50">
+      <div className="relative max-w-3xl w-full max-w-sm sm:max-w-md md:max-w-3xl">
         {!isOpened ? (
           // Closed Letter with enhanced design
           <div className="text-center animate-scale-in">
             <button
               onClick={handleOpenLetter}
-              className="group relative"
+              className="group relative w-full"
             >
-              <div className="w-96 h-72 mx-auto bg-gradient-to-br from-pink-100/80 via-rose-100/80 to-pink-200/80 backdrop-blur-xl rounded-3xl shadow-2xl border-2 border-white/50 transform group-hover:scale-105 group-hover:rotate-1 transition-all duration-500 flex items-center justify-center relative overflow-hidden">
+              <div className="w-full max-w-sm mx-auto h-64 sm:w-80 sm:h-60 md:w-96 md:h-72 bg-gradient-to-br from-pink-100/80 via-rose-100/80 to-pink-200/80 backdrop-blur-xl rounded-3xl shadow-2xl border-2 border-white/50 transform group-hover:scale-105 group-hover:rotate-1 transition-all duration-500 flex items-center justify-center relative overflow-hidden">
                 {/* Animated background gradient */}
                 <div className="absolute inset-0 bg-gradient-to-r from-pink-200/50 via-transparent to-rose-200/50 animate-pulse"></div>
                 
@@ -257,8 +318,8 @@ const LoveLetter: React.FC<{ onClose: () => void }> = ({ onClose }) => {
                     <div className="absolute -bottom-2 -left-2 w-3 h-3 bg-pink-400 rounded-full animate-ping" style={{ animationDelay: '0.5s' }}></div>
                   </div>
                   
-                  <h3 className="text-3xl font-bold text-pink-700 font-sedgwick mb-2">Lá thư tình yêu</h3>
-                  <p className="text-pink-600 text-lg font-medium mb-4">Từ trái tim anh dành cho em</p>
+                  <h3 className="text-2xl sm:text-3xl font-bold text-pink-700 font-sedgwick mb-2">Lá thư tình yêu</h3>
+                  <p className="text-base sm:text-lg text-pink-600 font-medium mb-4">Từ trái tim anh dành cho em</p>
                   
                   <div className="inline-flex items-center space-x-2 px-6 py-3 bg-white/60 rounded-2xl border border-pink-200/50">
                     <span className="text-pink-700 font-semibold">Nhấn để mở</span>
@@ -273,26 +334,19 @@ const LoveLetter: React.FC<{ onClose: () => void }> = ({ onClose }) => {
                 <div className="absolute top-1/4 right-8 w-2 h-2 bg-rose-300 rounded-full animate-ping" style={{ animationDelay: '1.5s' }}></div>
               </div>
             </button>
-            
-            <button
-              onClick={onClose}
-              className="mt-8 px-8 py-3 bg-white/80 backdrop-blur-sm text-gray-600 rounded-2xl hover:bg-white hover:text-gray-800 transition-all duration-200 shadow-lg border border-gray-200/50 font-medium"
-            >
-              Đóng
-            </button>
           </div>
         ) : (
           // Opened Letter with enhanced design
-          <div className="bg-gradient-to-br from-pink-50/90 via-white/90 to-rose-50/90 backdrop-blur-xl rounded-3xl shadow-2xl border-2 border-white/50 max-h-[85vh] overflow-y-auto animate-fade-in">
+          <div className="bg-gradient-to-br from-pink-50/90 via-white/90 to-rose-50/90 backdrop-blur-xl rounded-2xl md:rounded-3xl shadow-2xl border-2 border-white/50 max-h-[90vh] md:max-h-[85vh] overflow-y-auto animate-fade-in">
             {/* Enhanced Letter Header */}
-            <div className="bg-gradient-to-r from-pink-200/80 via-rose-200/80 to-pink-200/80 p-8 rounded-t-3xl relative overflow-hidden">
+            <div className="bg-gradient-to-r from-pink-200/80 via-rose-200/80 to-pink-200/80 p-4 md:p-8 rounded-t-2xl md:rounded-t-3xl relative overflow-hidden">
               <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent animate-pulse"></div>
               
               <button
                 onClick={onClose}
-                className="absolute top-6 right-6 w-10 h-10 bg-white/90 backdrop-blur-sm rounded-2xl flex items-center justify-center hover:bg-white hover:rotate-90 transition-all duration-300 shadow-lg"
+                className="absolute top-3 right-3 md:top-6 md:right-6 px-4 py-2 md:px-6 md:py-3 bg-white/90 backdrop-blur-sm rounded-xl md:rounded-2xl flex items-center justify-center hover:bg-white hover:scale-105 transition-all duration-300 shadow-lg border border-pink-200/50 z-20"
               >
-                <X className="w-6 h-6 text-pink-600" />
+                <span className="text-pink-600 font-semibold text-sm md:text-base">Đóng</span>
               </button>
               
               <div className="text-center relative z-10">
@@ -312,10 +366,10 @@ const LoveLetter: React.FC<{ onClose: () => void }> = ({ onClose }) => {
             </div>
 
             {/* Enhanced Letter Content */}
-            <div className="p-10 space-y-8">
+            <div className="p-4 md:p-10 space-y-6 md:space-y-8">
               <div className="prose prose-pink max-w-none">
-                <div className="text-center mb-8">
-                  <p className="text-3xl font-sedgwick text-pink-600 mb-4">Em yêu ơi,</p>
+                <div className="text-center mb-6 md:mb-8">
+                  <p className="text-2xl md:text-3xl font-sedgwick text-pink-600 mb-4">Em yêu ơi,</p>
                   <div className="flex justify-center space-x-1">
                     {['💕', '🌸', '💖', '🌹', '💕'].map((emoji, i) => (
                       <span key={i} className="text-2xl animate-bounce" style={{ animationDelay: `${i * 0.1}s` }}>
@@ -325,8 +379,8 @@ const LoveLetter: React.FC<{ onClose: () => void }> = ({ onClose }) => {
                   </div>
                 </div>
                 
-                <div className="space-y-6 text-gray-700 leading-relaxed text-lg">
-                  <div className="bg-white/50 rounded-2xl p-6 border-l-4 border-pink-400">
+                <div className="space-y-4 md:space-y-6 text-gray-700 leading-relaxed text-base md:text-lg">
+                  <div className="bg-white/50 rounded-2xl p-4 md:p-6 border-l-4 border-pink-400">
                     <p>
                       Từ ngày anh gặp em, cuộc đời anh như được thắp sáng bởi ánh nắng mặt trời. 
                       Em là điều tuyệt vời nhất đã đến với anh, là lý do để anh mỉm cười mỗi ngày.
@@ -339,7 +393,7 @@ const LoveLetter: React.FC<{ onClose: () => void }> = ({ onClose }) => {
                     mỗi giây phút đều là món quà quý giá mà cuộc sống ban tặng cho đôi ta.
                   </p>
 
-                  <div className="bg-pink-50/80 rounded-2xl p-6 border border-pink-200/50">
+                  <div className="bg-pink-50/80 rounded-2xl p-4 md:p-6 border border-pink-200/50">
                     <p>
                       Anh hứa sẽ luôn yêu thương, che chở và đồng hành cùng em trên con đường dài phía trước. 
                       Dù có khó khăn gì, anh cũng sẽ nắm tay em vượt qua tất cả.
@@ -352,40 +406,40 @@ const LoveLetter: React.FC<{ onClose: () => void }> = ({ onClose }) => {
                   </p>
                 </div>
 
-                <div className="text-center mt-12 mb-8">
-                  <div className="bg-gradient-to-r from-pink-100 to-rose-100 rounded-3xl p-8 border border-pink-200/50">
-                    <p className="text-3xl text-pink-600 font-sedgwick mb-4">I love you to the moon and back!</p>
-                    <div className="text-4xl space-x-2">
+                <div className="text-center mt-8 md:mt-12 mb-6 md:mb-8">
+                  <div className="bg-gradient-to-r from-pink-100 to-rose-100 rounded-2xl md:rounded-3xl p-4 md:p-8 border border-pink-200/50">
+                    <p className="text-xl md:text-3xl text-pink-600 font-sedgwick mb-2 md:mb-4">I love you to the moon and back!</p>
+                    <div className="text-2xl md:text-4xl space-x-1 md:space-x-2">
                       🌙✨💫⭐🌟
                     </div>
                   </div>
                   
-                  <div className="flex justify-center space-x-3 mt-6">
-                    <Heart className="w-8 h-8 text-pink-500 animate-heart-pulse" fill="currentColor" />
-                    <Heart className="w-8 h-8 text-rose-500 animate-heart-pulse" fill="currentColor" style={{ animationDelay: '0.3s' }} />
-                    <Heart className="w-8 h-8 text-pink-400 animate-heart-pulse" fill="currentColor" style={{ animationDelay: '0.6s' }} />
+                  <div className="flex justify-center space-x-2 md:space-x-3 mt-4 md:mt-6">
+                    <Heart className="w-6 h-6 md:w-8 md:h-8 text-pink-500 animate-heart-pulse" fill="currentColor" />
+                    <Heart className="w-6 h-6 md:w-8 md:h-8 text-rose-500 animate-heart-pulse" fill="currentColor" style={{ animationDelay: '0.3s' }} />
+                    <Heart className="w-6 h-6 md:w-8 md:h-8 text-pink-400 animate-heart-pulse" fill="currentColor" style={{ animationDelay: '0.6s' }} />
                   </div>
                 </div>
 
                 <div className="text-right">
-                  <div className="inline-block bg-white/60 rounded-2xl p-6 border border-pink-200/50">
-                    <p className="text-gray-600 font-sedgwick text-xl mb-2">Yêu em nhiều lắm,</p>
-                    <p className="text-pink-600 font-sedgwick text-3xl">Đạt ❤️</p>
+                  <div className="inline-block bg-white/60 rounded-2xl p-4 md:p-6 border border-pink-200/50">
+                    <p className="text-gray-600 font-sedgwick text-lg md:text-xl mb-2">Yêu em nhiều lắm,</p>
+                    <p className="text-pink-600 font-sedgwick text-2xl md:text-3xl">Đạt ❤️</p>
                   </div>
                 </div>
               </div>
             </div>
 
             {/* Enhanced Letter Footer */}
-            <div className="bg-gradient-to-r from-pink-100/80 via-rose-100/80 to-pink-100/80 p-6 rounded-b-3xl text-center border-t border-pink-200/50">
-              <div className="flex justify-center items-center space-x-4 text-lg text-pink-600 font-medium">
-                <span className="text-2xl">🌸</span>
-                <span>Made with endless love</span>
-                <span className="text-2xl">🌸</span>
+            <div className="bg-gradient-to-r from-pink-100/80 via-rose-100/80 to-pink-100/80 p-4 md:p-6 rounded-b-2xl md:rounded-b-3xl text-center border-t border-pink-200/50">
+              <div className="flex justify-center items-center space-x-2 md:space-x-4 text-base md:text-lg text-pink-600 font-medium">
+                <span className="text-xl md:text-2xl">🌸</span>
+                <span className="text-sm md:text-base">Made with endless love</span>
+                <span className="text-xl md:text-2xl">🌸</span>
               </div>
-              <div className="flex justify-center space-x-2 mt-3">
+              <div className="flex justify-center space-x-1 md:space-x-2 mt-2 md:mt-3">
                 {['💕', '💖', '💗', '💓', '💕'].map((emoji, i) => (
-                  <span key={i} className="text-lg animate-bounce" style={{ animationDelay: `${i * 0.15}s` }}>
+                  <span key={i} className="text-base md:text-lg animate-bounce" style={{ animationDelay: `${i * 0.15}s` }}>
                     {emoji}
                   </span>
                 ))}

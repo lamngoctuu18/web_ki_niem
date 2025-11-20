@@ -23,7 +23,21 @@ const PhotoAlbum: React.FC = () => {
     { id: 9, src: "/api/placeholder/400/400", alt: "Kỷ niệm 9", caption: "Kỷ niệm 100 ngày" },
     { id: 10, src: "/api/placeholder/350/450", alt: "Kỷ niệm 10", caption: "Tự chụp hình đôi" },
     { id: 11, src: "/api/placeholder/500/350", alt: "Kỷ niệm 11", caption: "Đi biển cùng nhau" },
-    { id: 12, src: "/api/placeholder/300/500", alt: "Kỷ niệm 12", caption: "Ngày mưa lãng mạn" }
+    { id: 12, src: "/api/placeholder/300/500", alt: "Kỷ niệm 12", caption: "Ngày mưa lãng mạn" },
+    { id: 13, src: "/api/placeholder/400/320", alt: "Kỷ niệm 13", caption: "Concert đầu tiên" },
+    { id: 14, src: "/api/placeholder/320/400", alt: "Kỷ niệm 14", caption: "Học nấu ăn cùng nhau" },
+    { id: 15, src: "/api/placeholder/450/350", alt: "Kỷ niệm 15", caption: "Chụp ảnh cưới thử" },
+    { id: 16, src: "/api/placeholder/350/400", alt: "Kỷ niệm 16", caption: "Đi chợ cùng nhau" },
+    { id: 17, src: "/api/placeholder/400/450", alt: "Kỷ niệm 17", caption: "Ngày cầu hôn" },
+    { id: 18, src: "/api/placeholder/300/380", alt: "Kỷ niệm 18", caption: "Tặng nhẫn đôi" },
+    { id: 19, src: "/api/placeholder/380/300", alt: "Kỷ niệm 19", caption: "Đạp xe quanh hồ" },
+    { id: 20, src: "/api/placeholder/420/350", alt: "Kỷ niệm 20", caption: "Tiệc sinh nhật anh" },
+    { id: 21, src: "/api/placeholder/350/420", alt: "Kỷ niệm 21", caption: "Đi karaoke" },
+    { id: 22, src: "/api/placeholder/450/400", alt: "Kỷ niệm 22", caption: "Mua sắm quần áo đôi" },
+    { id: 23, src: "/api/placeholder/400/380", alt: "Kỷ niệm 23", caption: "Thăm gia đình em" },
+    { id: 24, src: "/api/placeholder/360/450", alt: "Kỷ niệm 24", caption: "Chơi game cùng nhau" },
+    { id: 25, src: "/api/placeholder/480/350", alt: "Kỷ niệm 25", caption: "Làm bánh Valentine" },
+    { id: 26, src: "/api/placeholder/350/480", alt: "Kỷ niệm 26", caption: "Giáng sinh đầu tiên" }
   ];
 
   const openLightbox = (photoId: number) => {

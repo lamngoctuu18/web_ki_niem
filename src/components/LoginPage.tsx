@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { Heart, User, Lock, Eye, EyeOff } from 'lucide-react';
-import RegisterPage from './RegisterPage';
 
 interface LoginPageProps {
   onLoginSuccess?: () => void;
@@ -17,20 +16,9 @@ const LoginPage: React.FC<LoginPageProps> = ({ onLoginSuccess, onBack }) => {
   const [showRegisterBubble, setShowRegisterBubble] = useState(false);
   const [showForgotBubble, setShowForgotBubble] = useState(false);
   const [backgroundMode, setBackgroundMode] = useState<'normal' | 'heart' | 'forgot'>('normal');
-  const [showRegisterPage, setShowRegisterPage] = useState(false);
 
   const correctUsername = '241024'; // ngày yêu cầu
   const correctPassword = '211124'; // mật khẩu yêu cầu
-
-  if (showRegisterPage) {
-    return (
-      <RegisterPage
-        onBack={() => onBack?.()}
-        onLoginClick={() => setShowRegisterPage(false)}
-        onLoginSuccess={onLoginSuccess}
-      />
-    );
-  }
 
   const handleLogin = (e: React.FormEvent) => {
     e.preventDefault();
@@ -47,7 +35,7 @@ const LoginPage: React.FC<LoginPageProps> = ({ onLoginSuccess, onBack }) => {
     }
     
     if (password !== correctPassword) {
-      setPasswordError('vui lòng nhập mật khẩu chính xác');
+      setPasswordError('Vui lòng ngày bắt đầu yêu nhau');
       hasError = true;
     }
     
@@ -90,7 +78,7 @@ const LoginPage: React.FC<LoginPageProps> = ({ onLoginSuccess, onBack }) => {
           backgroundMode === 'normal' ? 'opacity-100' : 'opacity-0'
         }`}
       >
-        <div className="absolute inset-0 bg-gradient-to-br from-pink-100 via-white to-blue-100"></div>
+        <div className="absolute inset-0 bg-gradient-to-br from-pink-100 via-white to-pink-50"></div>
         <img
           src="/api/placeholder/1920/1080"
           alt="Couple background"
@@ -104,7 +92,7 @@ const LoginPage: React.FC<LoginPageProps> = ({ onLoginSuccess, onBack }) => {
           backgroundMode === 'heart' || backgroundMode === 'forgot' ? 'opacity-100' : 'opacity-0'
         }`}
       >
-        <div className="absolute inset-0 bg-gradient-to-br from-purple-100 via-pink-50 to-blue-50"></div>
+        <div className="absolute inset-0 bg-gradient-to-br from-pink-200 via-pink-50 to-white"></div>
         <img
           src="/api/placeholder/1920/1080"
           alt="Heart making"
@@ -134,10 +122,10 @@ const LoginPage: React.FC<LoginPageProps> = ({ onLoginSuccess, onBack }) => {
           )}
           {backgroundMode === 'normal' && !showRegisterBubble && !showForgotBubble && (
             <button
-              onClick={() => setShowRegisterPage(true)}
+              onClick={handleRegister}
               className="text-sm text-gray-600 hover:text-pink-500 transition-colors"
             >
-              Trang đăng ký
+              Tạo tài khoản
             </button>
           )}
           {onBack && (
@@ -274,16 +262,16 @@ const LoginPage: React.FC<LoginPageProps> = ({ onLoginSuccess, onBack }) => {
       {/* Chat Bubbles */}
       {showRegisterBubble && (
         <div className="fixed bottom-8 left-1/2 transform -translate-x-1/2 z-30 animate-fade-up">
-          <div className="bg-white rounded-2xl p-4 shadow-lg border-2 border-purple-300 max-w-xs mx-4 relative">
-            <p className="text-purple-700 font-medium text-center text-base">
-              có tài khoản rồi mà vẫn muốn đăng ký à??
+          <div className="bg-white rounded-2xl p-4 shadow-lg border-2 border-pink-300 max-w-xs mx-4 relative">
+            <p className="text-pink-700 font-medium text-center text-base">
+              Có tài khoản rồi mà còn đăng ký à?
             </p>
             <div className="absolute bottom-0 left-1/2 transform -translate-x-1/2 translate-y-full w-0 h-0 border-l-4 border-r-4 border-t-8 border-transparent border-t-white"></div>
-            <div className="absolute bottom-0 left-1/2 transform -translate-x-1/2 translate-y-3 w-0 h-0 border-l-4 border-r-4 border-t-8 border-transparent border-t-purple-300"></div>
+            <div className="absolute bottom-0 left-1/2 transform -translate-x-1/2 translate-y-3 w-0 h-0 border-l-4 border-r-4 border-t-8 border-transparent border-t-pink-300"></div>
             {/* Close button */}
             <button
               onClick={resetToNormal}
-              className="absolute -top-2 -right-2 w-6 h-6 bg-purple-500 text-white rounded-full text-xs hover:bg-purple-600 transition-colors flex items-center justify-center"
+              className="absolute -top-2 -right-2 w-6 h-6 bg-pink-500 text-white rounded-full text-xs hover:bg-pink-600 transition-colors flex items-center justify-center"
             >
               ×
             </button>
@@ -293,16 +281,16 @@ const LoginPage: React.FC<LoginPageProps> = ({ onLoginSuccess, onBack }) => {
 
       {showForgotBubble && (
         <div className="fixed bottom-8 left-1/2 transform -translate-x-1/2 z-30 animate-fade-up">
-          <div className="bg-white rounded-2xl p-4 shadow-lg border-2 border-purple-300 max-w-xs mx-4 relative animate-bounce-gentle">
-            <p className="text-purple-700 font-bold text-center text-lg">
+          <div className="bg-white rounded-2xl p-4 shadow-lg border-2 border-pink-300 max-w-xs mx-4 relative animate-bounce-gentle">
+            <p className="text-pink-700 font-bold text-center text-lg">
               RỒI CHIA TAY ĐI
             </p>
             <div className="absolute bottom-0 left-1/2 transform -translate-x-1/2 translate-y-full w-0 h-0 border-l-4 border-r-4 border-t-8 border-transparent border-t-white"></div>
-            <div className="absolute bottom-0 left-1/2 transform -translate-x-1/2 translate-y-3 w-0 h-0 border-l-4 border-r-4 border-t-8 border-transparent border-t-purple-300"></div>
+            <div className="absolute bottom-0 left-1/2 transform -translate-x-1/2 translate-y-3 w-0 h-0 border-l-4 border-r-4 border-t-8 border-transparent border-t-pink-300"></div>
             {/* Close button */}
             <button
               onClick={resetToNormal}
-              className="absolute -top-2 -right-2 w-6 h-6 bg-purple-500 text-white rounded-full text-xs hover:bg-purple-600 transition-colors flex items-center justify-center"
+              className="absolute -top-2 -right-2 w-6 h-6 bg-pink-500 text-white rounded-full text-xs hover:bg-pink-600 transition-colors flex items-center justify-center"
             >
               ×
             </button>
